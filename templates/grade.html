@@ -1,0 +1,7 @@
+<h2>Grading {{ sub.student }}</h2>
+<p>File: <a href="/download/{{ sub.filename }}">{{ sub.filename }}</a></p>
+<form method="POST">
+    Grade: <input name="grade" value="{{ sub.grade or '' }}">
+    <button type="submit">Submit Grade</button>
+</form>
+<a href="/dashboard">Back</a>

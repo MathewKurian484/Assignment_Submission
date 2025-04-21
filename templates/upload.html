@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .upload-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 25px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .dropzone {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+<div class="upload-container bg-white">
+    <h2 class="mb-4">Upload Course</h2>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" placeholder="Enter course title">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3" placeholder="Enter description"></textarea>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Resource Type</label>
+                <select class="form-select" name="resource_type">
+                    <option>PDF</option>
+                    <option>Video</option>
+                    <option>Slide</option>
+                </select>
+            </div>
+            <div class="col">
+                <label class="form-label">Course</label>
+                <select class="form-select" name="course">
+                    <option>Web Development</option>
+                    <option>Database Systems</option>
+                    <option>Software Engineering</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Access Level</label>
+            <select class="form-select" name="access_level">
+                <option>Public</option>
+                <option>Private</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Upload File</label>
+            <div class="dropzone">
+                Drag and drop your file here, or click to browse
+                <input type="file" class="form-control mt-2" name="pdf" accept="application/pdf">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Assignment</button>
+    </form>
+    <div class="mt-3 text-end">
+        <a href="/logout" class="btn btn-link">Logout</a>
+    </div>
+</div>
+
+<!-- Optional: Bootstrap JS for interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
