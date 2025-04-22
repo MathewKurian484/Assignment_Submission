@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4c4cdd;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+        }
+        .description {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #f5f5f5;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+        }
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        .action-btn {
+            background-color: #4c4cdd;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            background-color: #3b3bb5;
+        }
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Student Dashboard</div>
+        
+        <div class="description">
+            View and manage your courses. Start or complete courses as needed.
+        </div>
+
+        <div class="section-title">Available Courses</div>
+        {% if available_courses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Course</th>
+                    <th>Upload Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in available_courses %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ course.metadata.title }}</td>
+                    <td>{{ course.metadata.description }}</td>
+                    <td>{{ course.metadata.course }}</td>
+                    <td>{{ course.metadata.uploadDate.strftime('%Y-%m-%d') if course.metadata.uploadDate else 'N/A' }}</td>
+                    <td>
+                        <form method="POST" action="/start_course/{{ course._id }}">
+                            <button type="submit" class="action-btn">Start Course</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No courses available</p>
+        {% endif %}
+
+        <div class="section-title">Started Courses</div>
+        {% if started_courses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Course</th>
+                    <th>Start Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in started_courses %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ course.metadata.title }}</td>
+                    <td>{{ course.metadata.description }}</td>
+                    <td>{{ course.metadata.course }}</td>
+                    <td>{{ course.metadata.startDate.strftime('%Y-%m-%d') if course.metadata.startDate else 'N/A' }}</td>
+                    <td>
+                        <form method="POST" action="/complete_course/{{ course._id }}">
+                            <button type="submit" class="action-btn">Complete Course</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No started courses</p>
+        {% endif %}
+
+        <div class="section-title">Completed Courses</div>
+        {% if completed_courses %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Course</th>
+                    <th>Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in completed_courses %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ course.metadata.title }}</td>
+                    <td>{{ course.metadata.description }}</td>
+                    <td>{{ course.metadata.course }}</td>
+                    <td>{{ course.metadata.completionDate.strftime('%Y-%m-%d') if course.metadata.completionDate else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No completed courses</p>
+        {% endif %}
+    </div>
+</body>
+</html>

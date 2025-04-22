@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4c4cdd;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+        }
+        .description {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .upload-btn {
+            background-color: #4c4cdd;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+        .complete-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .complete-btn:hover {
+            background-color: #218838;
+        }
+        .completed-section {
+            margin-top: 40px;
+        }
+        .completed-header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Course Management System</div>
+        
+        <div class="description">
+            Manage your courses and files. Add, delete, update, and upload files easily.
+        </div>
+        
+        <div class="top-controls">
+            <a href="/upload" class="upload-btn">Upload Course</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Course</th>
+                    <th>Upload Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Pending courses -->
+                {% for course in courses %}
+                <tr>
+                    <td>{{ loop.index }}</td> <!-- Dynamically calculate serial number -->
+                    <td>{{ course.metadata.title }}</td>
+                    <td>{{ course.metadata.description }}</td>
+                    <td>{{ course.metadata.course }}</td>
+                    <td>{{ course.metadata.uploadDate.strftime('%Y-%m-%d') if course.metadata.uploadDate else 'N/A' }}</td>
+                    <td>Pending</td>
+                    <td>
+                        <form method="POST" action="/complete/{{ course._id }}">
+                            <button type="submit" class="complete-btn">Complete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="completed-section">
+            <div class="completed-header">Completed Courses</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Course</th>
+                        <th>Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in completed_courses %}
+                    <tr>
+                        <td>{{ loop.index }}</td> <!-- Dynamically calculate serial number -->
+                        <td>{{ course.metadata.title }}</td>
+                        <td>{{ course.metadata.description }}</td>
+                        <td>{{ course.metadata.course }}</td>
+                        <td>{{ course.metadata.uploadDate.strftime('%Y-%m-%d') if course.metadata.uploadDate else 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
